@@ -1,0 +1,56 @@
+#!/bin/bash -e
+
+showhelp () {
+    echo "Usage:"
+    echo "  cert-link [--dir=<dir>] <domain>"
+    echo
+    echo "Setup certificate links in /etc/ssl.  Unless -C option is provided,"
+    echo "certs are expected to be in the current directory."
+    echo
+    echo "OPTIONS"
+    echo
+    echo "  -C,--dir=<dir>  Change directory before refreshing certs."
+}
+
+declare domain
+
+opts=$(getopt -oC: -lhelp,dir: -- "$@")
+eval set -- "$opts"
+
+while true; do
+    case "$1" in
+        --help)     showhelp;   exit;;
+        -C|--dir)   cd "$2";    shift 2;;
+        --)                     shift; break;;
+        *)                      break;;
+    esac
+done
+
+if test $# -eq 0; then
+    echo "missing domain name" >&2
+    exit 1
+elif test $# -gt 1; then
+    echo "unexpected argument: $2" >&2
+    exit 2
+fi
+
+domain=$1
+
+test -e $domain.pem || {
+    echo "could not find $(pwd)/$domain.pem certificate" >&2
+    exit 11
+}
+
+test -e $domain.pfx || {
+    echo "could not find $(pwd)/$domain.pfx certificate" >&2
+    exit 11
+}
+
+test -e $domain.key || {
+    echo "could not find $(pwd)/$domain.key private key" >&2
+    exit 11
+}
+
+ln -nsf $(pwd)/$domain.pem /etc/ssl/certs/$domain.pem
+ln -nsf $(pwd)/$domain.pfx /etc/ssl/private/$domain.pfx
+ln -nsf $(pwd)/$domain.key /etc/ssl/private/$domain.key

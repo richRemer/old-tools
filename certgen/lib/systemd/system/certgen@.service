@@ -1,0 +1,5 @@
+[Service]
+ExecStart=/usr/local/bin/cert-refresh -C /usr/local/lib/acme %I
+
+[Install]
+WantedBy=certgen.target

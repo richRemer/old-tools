@@ -1,0 +1,53 @@
+#!/bin/bash -e
+
+showhelp () {
+    echo "Usage:"
+    echo "  cert-refresh [--dir=<dir>] <domain>"
+    echo
+    echo "Refresh certificate generated using acme tool.  Unless -C option is"
+    echo "provided, certs are expected to be in the current directory."
+    echo "Refreshed certificate will include a wildcard host for the domain."
+    echo
+    echo "OPTIONS"
+    echo
+    echo "  -C,--dir=<dir>  Change directory before refreshing certs."
+}
+
+declare -i expiry=1209600       # 14 days
+declare tmpdir domain
+
+opts=$(getopt -oC: -lhelp,dir: -- "$@")
+eval set -- "$opts"
+
+while true; do
+    case "$1" in
+        --help)     showhelp;   exit;;
+        -C|--dir)   cd "$2";    shift 2;;
+        --)                     shift; break;;
+        *)                      break;;
+    esac
+done
+
+if test $# -eq 0; then
+    echo "missing domain name" >&2
+    exit 1
+elif test $# -gt 1; then
+    echo "unexpected argument: $2" >&2
+    exit 2
+fi
+
+domain=$1
+tmpdir=$(mktemp -d); trap "test '$DEBUG' || rm -rf $tmpdir" EXIT
+
+test -e $domain.pem || {
+    echo "could not find $(pwd)/$domain.pem certificate" >&2
+    exit 11
+}
+
+if openssl x509 -checkend $expiry -noout -in $domain.pem >/dev/null; then
+    echo "certificate in $(pwd)/$domain.pem is still good"
+    exit
+fi
+
+acme -C $tmpdir $domain "*".$domain
+cp $tmpdir/* ./
