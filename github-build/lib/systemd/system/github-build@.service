@@ -1,0 +1,6 @@
+[Service]
+Type=oneshot
+ExecStart=/bin/ls
+
+[Install]
+WantedBy=github-build.target
