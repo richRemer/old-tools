@@ -1,0 +1,49 @@
+.TH ENGIR-PACKAGE 1 2022-08-19 "engir" "Engir Build Tools"
+
+.SH NAME
+engir-npm, engir-tarball \- Engir self-installing packaging tools.
+
+.SH SYNOPSIS
+\fBengir\fR {\fBnpm\fR|\fBtarball\fR} [\fB-O\fR \fIfile\fR] \fIsource\fR
+.RS 4
+Wrap \fIsource\fR package in an executable installer script.
+.RE
+
+.SH DESCRIPTION
+This article describes a suite of related \fBengir\fR(1) commands used to
+create executable installers from source packages.  When invoked, the
+\fIsource\fR package is wrapped in an installer script.  The installer is
+written to the current directory by default, but this can controlled using
+the \fB--output=\fR\fIfile\fR option.
+
+The format of the \fIsource\fR package depends on the specific tool which is
+invoked.  For \fBengir npm\fR, the \fIsource\fR should be a package generated
+with \fBnpm pack\fR.  For \fBengir tarball\fR, the \fIsource\fR should be a
+tarball containing paths relative to \fB/usr/local/\fR.
+
+.SH ARGUMENTS
+
+.TP
+\fIsource\fR
+.RS 4
+Source package to wrap in an installer.  The type of \fIsource\fR package
+depends on the tool invoked.
+.RE
+
+.SH OPTIONS
+
+.TP
+\fB--help\fR
+.RS 4
+Display high-level summary of options and arguments.
+.RE
+
+.TP
+\fB-O\fR,\fB--output\fR \fIfile\fR
+.RS 4
+Write installer to \fIfile\fR.  By default the installer will be written to the
+current directory with a name generated from the \fIsource\fR package.
+.RE
+
+.SH SEE ALSO
+\fBengir\fR(1), \fBnpm\fR(1), \fBtar\fR(1)

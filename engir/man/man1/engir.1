@@ -1,0 +1,81 @@
+.TH ENGIR 1 2022-08-15 "engir" "Engir Build Tools"
+
+.SH NAME
+engir \- Engir build tool.
+
+.SH SYNOPSIS
+\fBengir\fR [\fB-C\fR \fIdir\fR] [\fB--quiet\fR] \fIcommand\fR [\fIargs\fR ...]
+.RS 4
+Execute engir \fIcommand\fR.
+.RE
+
+\fBengir\fR \fIcommand\fR \fB--help\fR
+.RS 4
+Get help about a \fIcommand\fR recognized by \fBengir\fR.
+.RE
+
+\fBengir\fR \fB--help\fR
+.RS 4
+Show brief usage information for \fBengir\fR command.
+.RE
+
+\fBengir\fR
+.RS 4
+Display list of sub-commands recognized by the \fBengir\fR command.
+.RE
+
+.SH DESCRIPTION
+The \fBengir\fR command organizes a set of utilities to help build software
+projects and create self-installing binaries.  For additional information on a
+particular command try:
+
+    \fBengir\fR \fIcommand\fR \fB--help\fR
+
+.SH ARGUMENTS
+
+.TP
+\fIcommand\fR
+.RS 4
+Name of the command to execute.  Use \fBengir\fR \fIcommand\fR \fB--help\fR for
+more information about a command.
+.RE
+
+.TP
+\fIargs\fR
+.RS 4
+Additional arguments to pass to the \fIcommand\fR.
+.RE
+
+.SH OPTIONS
+.TP
+\fB-C\fR,\fB--cd\fR \fIdir\fR
+.RS 4
+Change to \fIdir\fR before executing command.
+.RE
+
+.TP
+\fB--help\fR
+.RS 4
+Display high-level summary of options and arguments.
+.RE
+
+.TP
+\fB-q\fR,\fB--quiet\fR
+.RS 4
+Reduce unnecessary output such as formatting and logging.
+.RE
+
+.TP
+\fB-v\fR,\fB--verbose\fR
+.RS 4
+Print unnecessary output such as formatting and logging.
+.RE
+
+.TP
+\fB--version\fR
+.RS 4
+Print version information for \fBengir\fR command and exit.
+.RE
+
+.SH SEE ALSO
+\fBengir-npm\fR(1), \fBengir-tarball\fR(1)
